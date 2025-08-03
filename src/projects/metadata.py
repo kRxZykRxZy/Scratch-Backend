@@ -5,5 +5,3 @@ def register_meta(app, jsonify):
   def meta(id):
     json = db.query(f"SELECT {id} FROM projects as project; SELECT project.metadata")
     return jsonify(json)
-
-  @a
