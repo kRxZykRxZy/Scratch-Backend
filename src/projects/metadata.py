@@ -1,7 +1,7 @@
-from .. import db
+from .. import db 
 
 def register_meta(app, jsonify):
-  @app.route('/projects/<int:id>')
-  def meta(id):
-    json = db.query(f"SELECT {id} FROM projects as project; SELECT project.metadata")
-    return jsonify(json)
+    @app.route('/projects/<int:id>')
+    def meta(id):
+        result = db.query(f"SELECT metadata FROM projects WHERE id = {id}")
+        return jsonify(result)
