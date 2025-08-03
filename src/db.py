@@ -59,3 +59,5 @@ class DB:
 
 def connect_db(db_name="scratch_db.sql", auto_backup=60):
     return DB(db_name=db_name, auto_backup=auto_backup)
+
+db = DB.connect_db(db_name="scratch_db.sql", auto_backup=30)
