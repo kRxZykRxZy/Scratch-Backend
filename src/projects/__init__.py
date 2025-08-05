@@ -1,8 +1,8 @@
-from metadata import register_meta
+from .metadata import register_meta
 from flask import jsonify
-from projectJson import register_json
-from projectAssets import register_asset
-from createProject import create_project
+from .projectJson import register_json
+from .projectAssets import register_asset
+from .createProject import create_project
 
 def register_projects(app):
   register_meta(app, jsonify())
