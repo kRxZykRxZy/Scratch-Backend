@@ -61,3 +61,12 @@ def connect_db(db_name="scratch_db.sql", auto_backup=60):
     return DB(db_name=db_name, auto_backup=auto_backup)
 
 db = DB.connect_db(db_name="scratch_db.sql", auto_backup=30)
+db.query("""CREATE TABLE projects (
+    id INTEGER PRIMARY KEY,
+    author TEXT,
+    projectSb3 TEXT,
+    metadata JSON,
+    remixes JSON,
+    isRemix BOOLEAN
+);
+""")
