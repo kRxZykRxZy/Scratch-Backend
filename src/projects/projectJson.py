@@ -3,7 +3,7 @@ import io
 import zipfile
 import json
 from flask import abort
-from .. import db
+from src import db
 
 def register_json(app, jsonify):
     @app.route('/projects/<int:id>/contents')
