@@ -19,7 +19,7 @@ docker run --rm python-module-installer
 ```
 If this doesnt work use:
 ```py
-python -m recources.src.main
+python -m resources.src.main
 ```
 <!--
 ## 🔒 Internal API Reference
