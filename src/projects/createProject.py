@@ -1,7 +1,7 @@
 import random
 import secrets
 import json
-from flask import jsonify
+from flask import jsonify, session
 from .. import db  # your db import
 
 def create_project(app):
@@ -10,6 +10,8 @@ def create_project(app):
         # Get new project ID (max + 1)
         max_id_row = db.query("SELECT MAX(id) as max_id FROM projects")
         new_id = (max_id_row[0]['max_id'] or 0) + 1
+        if username != session["username"]:
+            return jsonify({ "error": "Unauthorised Project Creation", "success": False })
 
         project_token = secrets.token_hex(32)
         project = {
