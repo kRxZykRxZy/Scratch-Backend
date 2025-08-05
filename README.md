@@ -4,7 +4,7 @@ This project scans Python files inside the `src/` folder to:
 
 - Automatically detect and install third-party dependencies.
 - Serve or run code inside a Docker container.
-- Treat `src/` as a clean Python module with `__init__.py` support.
+- Treat `resources/src/` as a clean Python module with `__init__.py` support.
 
 Useful for rapid prototyping, API services, or modular apps.
 
