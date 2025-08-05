@@ -3,7 +3,7 @@ import ast
 import subprocess
 import sys
 
-SRC_DIR = os.path.join(os.path.dirname(__file__), '..', 'src')
+SRC_DIR = os.path.join(os.path.dirname(__file__), '..', 'resources', 'src')
 
 def find_python_files(directory):
     py_files = []
@@ -35,11 +35,9 @@ def find_local_modules(src_dir):
     """Return a set of top-level module names that exist locally in SRC_DIR."""
     local_modules = set()
     for root, dirs, files in os.walk(src_dir):
-        # Consider top-level modules only (direct children of SRC_DIR)
         rel_path = os.path.relpath(root, src_dir)
         if rel_path == '.':
             for d in dirs:
-                # If directory has __init__.py, treat as package
                 if os.path.isfile(os.path.join(root, d, '__init__.py')):
                     local_modules.add(d)
             for f in files:
@@ -69,10 +67,8 @@ def main():
 
     to_install = []
     for module in all_imports:
-        # Skip if module is local (part of SRC_DIR)
         if module in local_modules:
             continue
-        
         try:
             __import__(module)
         except ImportError:
