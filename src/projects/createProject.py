@@ -2,7 +2,7 @@ import random
 import secrets
 import json
 from flask import jsonify, session
-from .. import db  # your db import
+from src import db  # your db import
 
 def create_project(app):
     @app.route('/user/<username>/projects/new', methods=['POST'])
