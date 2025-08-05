@@ -10,6 +10,7 @@ def create_project(app):
         # Get new project ID (max + 1)
         max_id_row = db.query("SELECT MAX(id) as max_id FROM projects")
         new_id = (max_id_row[0]['max_id'] or 0) + 1
+        user_id = session["id"] 
         if username != session["username"]:
             return jsonify({ "error": "Unauthorised Project Creation", "success": False })
 
@@ -17,19 +18,18 @@ def create_project(app):
         project = {
             "id": new_id,
             "title": "Untitled Project",
-            "description": None,
-            "instructions": None,
-            "visibility": None,
-            "public": None,
+            "description": 'No Description',
+            "instructions": 'No Instructions',
+            "visibility": 'NaN',
+            "public": False,
             "comments_allowed": None,
-            "is_published": None,
+            "is_published": False,
             "author": {
                 "id": None,
                 "username": username,
-                "scratchteam": None,
                 "history": {"joined": None},
                 "profile": {
-                    "id": None,
+                    "id": id,
                     "images": {
                         "90x90": None,
                         "60x60": None,
