@@ -1,4 +1,4 @@
-from .. import db 
+from src import db 
 
 def register_meta(app, jsonify):
     @app.route('/projects/<int:id>')
