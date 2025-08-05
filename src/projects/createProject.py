@@ -59,7 +59,7 @@ def create_project(app):
 
         # Insert new row
         db.query(f"""
-            INSERT INTO projects (id, author, projectSb3, metadata, remixes, isRemixe)
+            INSERT INTO projects (id, author, projectSb3, metadata, remixes, isRemix)
             VALUES (
                 {new_id},
                 '{username}',
