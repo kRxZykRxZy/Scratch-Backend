@@ -1,6 +1,6 @@
 # 🐳 Python Auto Dependency Installer (Dockerized)
 
-This project scans Python files inside the `src/` folder to:
+This project scans Python files inside the `resources/src/` folder to:
 
 - Automatically detect and install third-party dependencies.
 - Serve or run code inside a Docker container.
