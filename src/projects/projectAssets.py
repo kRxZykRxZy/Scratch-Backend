@@ -3,7 +3,7 @@ import io
 import zipfile
 import mimetypes
 from flask import abort, send_file
-from .. import db
+from src import db
 
 def register_asset(app, jsonify):
     @app.route('/internalapi/asset/<asset_md5ext>')
