@@ -1,0 +1,63 @@
+import os
+import ast
+import subprocess
+import sys
+
+SRC_DIR = os.path.join(os.path.dirname(__file__), '..', 'src')
+
+def find_python_files(directory):
+    py_files = []
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.py'):
+                py_files.append(os.path.join(root, file))
+    return py_files
+
+def extract_imports_from_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        try:
+            tree = ast.parse(f.read(), filename=file_path)
+        except SyntaxError:
+            print(f"Skipping {file_path} due to syntax error.")
+            return []
+
+    imports = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                imports.add(alias.name.split('.')[0])
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
+                imports.add(node.module.split('.')[0])
+    return imports
+
+def install_package(pkg):
+    try:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', pkg])
+    except subprocess.CalledProcessError:
+        print(f"Failed to install {pkg}")
+
+def main():
+    print(f"Scanning Python files in: {SRC_DIR}")
+    
+    py_files = find_python_files(SRC_DIR)
+    print(f"Found {len(py_files)} Python files.")
+
+    all_imports = set()
+    for py_file in py_files:
+        imports = extract_imports_from_file(py_file)
+        all_imports.update(imports)
+
+    to_install = []
+    for module in all_imports:
+        try:
+            __import__(module)
+        except ImportError:
+            to_install.append(module)
+
+    print(f"Installing {len(to_install)} packages: {to_install}")
+    for pkg in to_install:
+        install_package(pkg)
+
+if __name__ == "__main__":
+    main()
