@@ -31,6 +31,22 @@ def extract_imports_from_file(file_path):
                 imports.add(node.module.split('.')[0])
     return imports
 
+def find_local_modules(src_dir):
+    """Return a set of top-level module names that exist locally in SRC_DIR."""
+    local_modules = set()
+    for root, dirs, files in os.walk(src_dir):
+        # Consider top-level modules only (direct children of SRC_DIR)
+        rel_path = os.path.relpath(root, src_dir)
+        if rel_path == '.':
+            for d in dirs:
+                # If directory has __init__.py, treat as package
+                if os.path.isfile(os.path.join(root, d, '__init__.py')):
+                    local_modules.add(d)
+            for f in files:
+                if f.endswith('.py'):
+                    local_modules.add(os.path.splitext(f)[0])
+    return local_modules
+
 def install_package(pkg):
     try:
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', pkg])
@@ -48,8 +64,15 @@ def main():
         imports = extract_imports_from_file(py_file)
         all_imports.update(imports)
 
+    local_modules = find_local_modules(SRC_DIR)
+    print(f"Detected local modules: {local_modules}")
+
     to_install = []
     for module in all_imports:
+        # Skip if module is local (part of SRC_DIR)
+        if module in local_modules:
+            continue
+        
         try:
             __import__(module)
         except ImportError:
